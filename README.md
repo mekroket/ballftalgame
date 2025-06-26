@@ -2,8 +2,8 @@
 
 Ballftal Game, Unity ile geliştirilen fizik tabanlı bir top oyunudur. Oyuncular, çeşitli engelleri aşarak topu hedefe ulaştırmaya çalışır. Proje, Unity oyun motoru kullanılarak tasarlanmış ve C# dili ile kodlanmıştır.
 
-![1](https://github.com/mekroket/innomis-php-website/blob/main/1.png)
-![2](https://github.com/mekroket/innomis-php-website/blob/main/2.png)
+![1](https://https://github.com/mekroket/ballftalgame/blob/main/1.png)
+![2](https://https://github.com/mekroket/ballftalgame/blob/main/2.png)
 
 ---
 
