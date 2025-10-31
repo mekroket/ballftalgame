@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
     public float smoothSpeed = 5.0f; // Kamera takip yumuşaklığı
     public float minVerticalAngle = -30f; // En düşük dikey açı
     public float maxVerticalAngle = 60f; // En yüksek dikey açı
+    public float mouseSensitivityMultiplier = 50f; // Fare hassasiyeti çarpanı
     
     private float currentRotation = 0f;
     private float currentVerticalAngle = 0f;
@@ -16,11 +17,22 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (target == null) return;
+        if (target == null) 
+        {
+            return;
+        }
 
-        // Fare ile yatay ve dikey dönüş
-        float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
-        float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
+        // Fare ile yatay ve dikey dönüş - input validation
+        // Input.GetAxis values are already normalized between -1 and 1
+        float mouseInputX = Input.GetAxis("Mouse X");
+        float mouseInputY = Input.GetAxis("Mouse Y");
+        
+        // Validate input is within expected range
+        if (Mathf.Abs(mouseInputX) > 1f) mouseInputX = Mathf.Clamp(mouseInputX, -1f, 1f);
+        if (Mathf.Abs(mouseInputY) > 1f) mouseInputY = Mathf.Clamp(mouseInputY, -1f, 1f);
+        
+        float mouseX = mouseInputX * rotationSpeed * mouseSensitivityMultiplier;
+        float mouseY = mouseInputY * rotationSpeed * mouseSensitivityMultiplier;
 
         // Dikey açıyı sınırla
         currentVerticalAngle = Mathf.Clamp(currentVerticalAngle - mouseY, minVerticalAngle, maxVerticalAngle);
