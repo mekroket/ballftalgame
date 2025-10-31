@@ -13,11 +13,11 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            Debug.Log("GameManager başlatıldı");
         }
         else
         {
             Destroy(gameObject);
+            return;
         }
 
         // UI kurulumu
@@ -27,14 +27,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         UpdateScoreText();
-        Debug.Log("Başlangıç skoru: " + coinCount);
     }
 
     void SetupUI()
     {
         if (scoreText != null)
         {
-            Debug.Log("Score Text bulundu");
             // Text ayarları
             scoreText.fontSize = 36;
             scoreText.fontStyle = FontStyles.Bold;
@@ -43,22 +41,27 @@ public class GameManager : MonoBehaviour
 
             // RectTransform ayarları
             RectTransform rectTransform = scoreText.GetComponent<RectTransform>();
-            rectTransform.anchorMin = new Vector2(1, 1); // Sağ üst köşe
-            rectTransform.anchorMax = new Vector2(1, 1);
-            rectTransform.pivot = new Vector2(1, 1);
-            rectTransform.anchoredPosition = new Vector2(-20, -20);
+            if (rectTransform != null)
+            {
+                rectTransform.anchorMin = new Vector2(1, 1); // Sağ üst köşe
+                rectTransform.anchorMax = new Vector2(1, 1);
+                rectTransform.pivot = new Vector2(1, 1);
+                rectTransform.anchoredPosition = new Vector2(-20, -20);
+            }
 
             // Arka plan oluştur
             CreateBackgroundPanel();
-        }
-        else
-        {
-            Debug.LogError("Score Text atanmamış!");
         }
     }
 
     void CreateBackgroundPanel()
     {
+        if (scoreText == null || scoreText.transform.parent == null)
+        {
+            Debug.LogError("Cannot create background panel: scoreText or parent is null");
+            return;
+        }
+
         // Arka plan paneli oluştur
         GameObject panel = new GameObject("ScoreBackground");
         panel.transform.SetParent(scoreText.transform.parent);
@@ -70,17 +73,19 @@ public class GameManager : MonoBehaviour
 
         // RectTransform ayarları
         RectTransform panelRect = panel.GetComponent<RectTransform>();
-        panelRect.anchorMin = scoreText.rectTransform.anchorMin;
-        panelRect.anchorMax = scoreText.rectTransform.anchorMax;
-        panelRect.pivot = scoreText.rectTransform.pivot;
-        panelRect.anchoredPosition = scoreText.rectTransform.anchoredPosition;
-        panelRect.sizeDelta = new Vector2(200, 50); // Panel boyutu
+        if (panelRect != null && scoreText.rectTransform != null)
+        {
+            panelRect.anchorMin = scoreText.rectTransform.anchorMin;
+            panelRect.anchorMax = scoreText.rectTransform.anchorMax;
+            panelRect.pivot = scoreText.rectTransform.pivot;
+            panelRect.anchoredPosition = scoreText.rectTransform.anchoredPosition;
+            panelRect.sizeDelta = new Vector2(200, 50); // Panel boyutu
+        }
     }
 
     public void CollectCoin()
     {
         coinCount++;
-        Debug.Log("Altın toplandı! Yeni skor: " + coinCount);
         UpdateScoreText();
     }
 
@@ -89,11 +94,6 @@ public class GameManager : MonoBehaviour
         if (scoreText != null)
         {
             scoreText.text = coinCount.ToString();
-            Debug.Log("Skor metni güncellendi: " + scoreText.text);
-        }
-        else
-        {
-            Debug.LogError("Score Text null! Skor güncellenemedi.");
         }
     }
 } 

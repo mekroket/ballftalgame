@@ -25,8 +25,18 @@ public class BallController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbody component is missing!");
+            return;
+        }
+        
         mainCamera = Camera.main;
-        Debug.Log("Top başlatıldı");
+        if (mainCamera == null)
+        {
+            Debug.LogError("Main camera not found!");
+            return;
+        }
         
         // Fizik ayarları
         rb.linearDamping = 1f; // Sürtünme ekle
@@ -83,6 +93,11 @@ public class BallController : MonoBehaviour
 
     void Update()
     {
+        if (rb == null || mainCamera == null)
+        {
+            return;
+        }
+
         // Hareket kontrolü
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -127,10 +142,6 @@ public class BallController : MonoBehaviour
         // Hareketi uygula
         if (movement.magnitude > 0.1f)
         {
-            // Debug mesajları
-            Debug.Log("Mevcut hız: " + rb.linearVelocity.magnitude);
-            Debug.Log("Maksimum hız: " + currentMaxVelocity);
-
             // Mevcut hızı kontrol et
             if (rb.linearVelocity.magnitude < currentMaxVelocity)
             {
@@ -156,7 +167,7 @@ public class BallController : MonoBehaviour
             if (isGrounded)
             {
                 // Zıplama sesi çal
-                if (jumpSound != null)
+                if (jumpSound != null && audioSource != null)
                 {
                     audioSource.PlayOneShot(jumpSound);
                 }

@@ -16,11 +16,14 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (target == null) return;
+        if (target == null) 
+        {
+            return;
+        }
 
-        // Fare ile yatay ve dikey dönüş
-        float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
-        float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
+        // Fare ile yatay ve dikey dönüş - input validation
+        float mouseX = Mathf.Clamp(Input.GetAxis("Mouse X"), -100f, 100f) * rotationSpeed;
+        float mouseY = Mathf.Clamp(Input.GetAxis("Mouse Y"), -100f, 100f) * rotationSpeed;
 
         // Dikey açıyı sınırla
         currentVerticalAngle = Mathf.Clamp(currentVerticalAngle - mouseY, minVerticalAngle, maxVerticalAngle);

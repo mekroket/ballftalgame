@@ -23,7 +23,6 @@ public class AudioManager : MonoBehaviour
         // AudioSource yoksa ekle
         if (musicSource == null)
         {
-            Debug.Log("AudioSource ekleniyor...");
             musicSource = gameObject.AddComponent<AudioSource>();
             musicSource.loop = true; // Müzik sürekli çalsın
             musicSource.volume = musicVolume;
@@ -44,20 +43,12 @@ public class AudioManager : MonoBehaviour
     // Müziği başlat
     public void PlayMusic(AudioClip musicClip)
     {
-        Debug.Log("PlayMusic çağrıldı. Müzik dosyası: " + (musicClip != null ? musicClip.name : "null"));
-        
         if (musicSource != null && musicClip != null)
         {
             musicSource.clip = musicClip;
             musicSource.volume = musicVolume;
             musicSource.loop = true;
             musicSource.Play();
-            Debug.Log("Müzik başlatıldı. Çalıyor mu: " + musicSource.isPlaying);
-        }
-        else
-        {
-            if (musicSource == null) Debug.LogError("AudioSource bulunamadı!");
-            if (musicClip == null) Debug.LogError("Müzik dosyası null!");
         }
     }
 
@@ -91,13 +82,9 @@ public class AudioManager : MonoBehaviour
     // Debug için müzik durumunu kontrol et
     void Update()
     {
-        if (musicSource != null && musicSource.clip != null)
+        if (musicSource != null && musicSource.clip != null && !musicSource.isPlaying)
         {
-            if (!musicSource.isPlaying)
-            {
-                Debug.Log("Müzik durmuş, tekrar başlatılıyor...");
-                musicSource.Play();
-            }
+            musicSource.Play();
         }
     }
 } 

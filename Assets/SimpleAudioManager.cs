@@ -13,16 +13,10 @@ public class SimpleAudioManager : MonoBehaviour
         // Eğer müzik atanmışsa başlat
         if (backgroundMusic != null && audioSource != null)
         {
-            Debug.Log("Müzik ayarlanıyor...");
             audioSource.clip = backgroundMusic;
             audioSource.loop = true;
             audioSource.volume = 0.5f;
             audioSource.Play();
-            Debug.Log("Müzik başlatıldı!");
-        }
-        else
-        {
-            Debug.LogError("Müzik veya AudioSource eksik!");
         }
     }
 } 

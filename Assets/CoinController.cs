@@ -23,7 +23,10 @@ public class CoinController : MonoBehaviour
             }
 
             // Skoru artır
-            GameManager.Instance.CollectCoin();
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.CollectCoin();
+            }
             
             // Altını yok et
             Destroy(gameObject);
