@@ -58,7 +58,6 @@ public class GameManager : MonoBehaviour
     {
         if (scoreText == null || scoreText.transform.parent == null)
         {
-            Debug.LogError("Cannot create background panel: scoreText or parent is null");
             return;
         }
 
